@@ -16,8 +16,8 @@ app.use("/person", personRoutes); // Use person routes under /api path
 const menuItemsRoutes = require("./routes/menuItemsRoutes"); // Import menu items routes
 app.use("/menuItems", menuItemsRoutes); // Use menu items routes under /menuItems
 
-// Start the server
-app.listen(PORT, () => {
+// start server on port 3000
+app.listen(3000, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
