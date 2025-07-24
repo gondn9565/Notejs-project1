@@ -1,0 +1,12 @@
+// const notes = require("./notes.js");
+// let age = notes.age;
+// console.log(`User's age is: + ${age}`);
+// let name = notes.name;
+// console.log(`User's name is: ${name}`);
+// const result = notes.addNum(age, 10);
+// console.log("Result of adding age and 10 is:" + result);
+// var _ = require("lodash");
+// var data = ["kajal", "kajal", 1, 6, 7, 1, "2"];
+// const filter = _.uniq(data);
+// console.log("Filtered data:", filter);
+// console.log(_.isString(true));
