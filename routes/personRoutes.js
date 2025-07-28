@@ -2,9 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Person = require("../models/person");
 // Route to add a person to the database
-router.post("/Signup", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const data = req.body; // Extract person data from request
+    const data = req.body; // E
+    //
+
+    //  person data from request
     const newPerson = new Person(data); // Create a new Mongoose document
     const response = await newPerson.save(); // Save it to MongoDB
     console.log("Data saved:", response);

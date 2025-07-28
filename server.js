@@ -20,9 +20,9 @@ const longRequest = (req, res, next) => {
 app.use(longRequest); // Use the middleware for all routes
 
 //doing authentication url
-// app.use(passport.initialize());
+app.use(passport.initialize());
 const localAuthMiddleware = passport.authenticate("local", { session: false });
-//passport.authenticate("local", { session: ////false })
+// passport.authenticate("local", { session: false });
 
 app.get("/", function (req, res) {
   res.send("Welcome to our hotel");
@@ -35,7 +35,7 @@ app.get("/", function (req, res) {
 const personRoutes = require("./routes/personRoutes"); // Import person routes
 app.use("/person", localAuthMiddleware, personRoutes); // Use person routes under /api path
 const menuItemsRoutes = require("./routes/menuItemsRoutes"); // Import menu items routes
-app.use("/menuItems", localAuthMiddleware, menuItemsRoutes); // Use menu items routes under /menuItems
+app.use("/menuItems", menuItemsRoutes); // Use menu items routes under /menuItems
 
 // start server on port 3000
 app.listen(3000, () => {
