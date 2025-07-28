@@ -20,7 +20,7 @@ const longRequest = (req, res, next) => {
 app.use(longRequest); // Use the middleware for all routes
 
 //doing authentication url
-app.use(passport.initialize());
+// app.use(passport.initialize());
 const localAuthMiddleware = passport.authenticate("local", { session: false });
 //passport.authenticate("local", { session: ////false })
 
