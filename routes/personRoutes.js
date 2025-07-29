@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Person = require("../models/person");
 // Route to add a person to the database
+const { jwtAuthMiddleware, generateToken } = require("./../jwt");
 router.post("/", async (req, res) => {
   try {
     const data = req.body; // E
@@ -11,6 +12,9 @@ router.post("/", async (req, res) => {
     const newPerson = new Person(data); // Create a new Mongoose document
     const response = await newPerson.save(); // Save it to MongoDB
     console.log("Data saved:", response);
+    const token = await newPerson.save();
+    console.log("Token is:", token);
+    res.status(200).json({ response: response, token: token });
     res.status(200).json(response);
   } catch (err) {
     console.log("Error saving person:", err);

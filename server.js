@@ -4,7 +4,7 @@ const db = require("./db"); // Ensure db.js connects to MongoDB
 const app = express();
 const PORT = 3000;
 const passport = require("./auth"); // Import authentication middleware
-// Middleware to parse JSON request bodies
+// Middleware to parse JSON request bodiesconst
 app.use(bodyParser.json());
 
 // console.log(
