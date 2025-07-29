@@ -1,43 +1,37 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const db = require("./db"); // Ensure db.js connects to MongoDB
 const app = express();
-const PORT = 3000;
-const passport = require("./auth"); // Import authentication middleware
-// Middleware to parse JSON request bodiesconst
-app.use(bodyParser.json());
+const db = require("./db");
+require("dotenv").config();
+const passport = require("./auth");
 
-// console.log(
-//   `[${new Date().toLocaleString()}] Request Made to : ${req.originalUrl}`
-// );
-const longRequest = (req, res, next) => {
+const bodyParser = require("body-parser");
+app.use(bodyParser.json()); // req.body
+const PORT = process.env.PORT || 3000;
+
+// Middleware Function
+const logRequest = (req, res, next) => {
   console.log(
     `[${new Date().toLocaleString()}] Request Made to : ${req.originalUrl}`
   );
-  next();
+  next(); // Move on to the next phase
 };
+app.use(logRequest);
 
-app.use(longRequest); // Use the middleware for all routes
-
-//doing authentication url
 app.use(passport.initialize());
 const localAuthMiddleware = passport.authenticate("local", { session: false });
-// passport.authenticate("local", { session: false });
 
 app.get("/", function (req, res) {
-  res.send("Welcome to our hotel");
+  res.send("Welcome to our Hotel");
 });
 
-// Root route
-// app.get("/", (req, res) => {
-//   res.send("Jai Bhawani");
-// });
-const personRoutes = require("./routes/personRoutes"); // Import person routes
-app.use("/person", localAuthMiddleware, personRoutes); // Use person routes under /api path
-const menuItemsRoutes = require("./routes/menuItemsRoutes"); // Import menu items routes
-app.use("/menuItems", menuItemsRoutes); // Use menu items routes under /menuItems
+// Import the router files
+const personRoutes = require("./routes/personRoutes");
+const menuItemRoutes = require("./routes/menuItemRoutes");
 
-// start server on port 3000
-app.listen(3000, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// Use the routers
+app.use("/person", personRoutes);
+app.use("/menu", menuItemRoutes);
+
+app.listen(PORT, () => {
+  console.log("listening on port 3000");
 });

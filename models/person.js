@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-// Define the schema for a person
-const bcrypt = require("bcrypt"); // Import bcrypt for password hashing
+const bcrypt = require("bcrypt");
+
+// Define the Person schema
 const personSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -25,7 +26,6 @@ const personSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    required: true,
   },
   salary: {
     type: Number,
@@ -40,25 +40,31 @@ const personSchema = new mongoose.Schema({
     type: String,
   },
 });
+
 personSchema.pre("save", async function (next) {
   const person = this;
-  //hash the password only if it has modified (or is new)
-  if (!person.isModified("password")) {
-    return next(); // If password is not modified, skip hashing
-  }
+
+  // Hash the password only if it has been modified (or is new)
+  if (!person.isModified("password")) return next();
+
   try {
-    //hash passwort generate
+    // hash password generation
     const salt = await bcrypt.genSalt(10);
-    //hash password
-    const hashpassword = await bcrypt.hash(person.password, salt);
-    person.password = hashpassword;
+
+    // hash password
+    const hashedPassword = await bcrypt.hash(person.password, salt);
+
+    // Override the plain password with the hashed one
+    person.password = hashedPassword;
     next();
   } catch (err) {
     return next(err);
   }
 });
+
 personSchema.methods.comparePassword = async function (candidatePassword) {
   try {
+    // Use bcrypt to compare the provided password with the hashed password
     const isMatch = await bcrypt.compare(candidatePassword, this.password);
     return isMatch;
   } catch (err) {
@@ -66,7 +72,6 @@ personSchema.methods.comparePassword = async function (candidatePassword) {
   }
 };
 
-//create person model
+// Create Person model
 const Person = mongoose.model("Person", personSchema);
-//export the person model
 module.exports = Person;
